@@ -1,6 +1,5 @@
 package com.marianw12.remitly_internship.controller;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.marianw12.remitly_internship.request.CreateSwiftCodeRequest;
 import com.marianw12.remitly_internship.service.SwiftCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
