@@ -12,21 +12,22 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
 import com.marianw12.remitly_internship.repository.SwiftCodeRepository;
-
+import org.springframework.stereotype.Component;
 
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Component
+@Profile("!test")
 @RequiredArgsConstructor
 public class DataParser {
     private final Logger LOGGER = LoggerFactory.getLogger(DataParser.class);
