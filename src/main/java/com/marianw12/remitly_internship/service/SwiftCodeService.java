@@ -6,6 +6,7 @@ import com.marianw12.remitly_internship.exception.DuplicatedSwiftCodeException;
 import com.marianw12.remitly_internship.exception.InvalidCountryException;
 import com.marianw12.remitly_internship.exception.InvalidSwiftCodeException;
 import com.marianw12.remitly_internship.exception.NonExistingSwiftCodeException;
+import com.marianw12.remitly_internship.mapper.SwiftCodeMapper;
 import com.marianw12.remitly_internship.repository.SwiftCodeRepository;
 import com.marianw12.remitly_internship.request.CreateSwiftCodeRequest;
 import com.marianw12.remitly_internship.request.SwiftCodeBranchResponse;
@@ -14,15 +15,17 @@ import com.marianw12.remitly_internship.util.SwiftCodeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
 public class SwiftCodeService {
     @Autowired
     SwiftCodeRepository swiftCodeRepository;
+    @Autowired
+    SwiftCodeMapper swiftCodeMapper;
 
     public SwiftCodeBranchResponse getSwiftCode(String swiftCode) {
         validateSwiftCode(swiftCode);
@@ -31,14 +34,19 @@ public class SwiftCodeService {
 
         if (result.isPresent()) {
             SwiftCodeEntity swiftCodeEntity = result.get();
-            return SwiftCodeBranchResponse.builder()
-                    .swiftCode(swiftCodeEntity.getSwiftCode())
-                    .isHeadquarter(swiftCodeEntity.isHeadquarter())
-                    .bankName(swiftCodeEntity.getBankName())
-                    .countryISO2(swiftCodeEntity.getCountryIso2())
-                    .address(swiftCodeEntity.getAddress())
-                    .countryName(swiftCodeEntity.getCountryName())
-                    .build();
+
+            if(SwiftCodeValidator.isHeadquarter(swiftCodeEntity.getSwiftCode())){
+                String prefix = swiftCodeEntity.getSwiftCode().substring(0, 8);
+                List<SwiftCodeEntity> branches = swiftCodeRepository.findBySwiftCodeStartingWith(prefix);
+                branches = branches
+                        .stream()
+                        .filter(entity -> !SwiftCodeValidator.isHeadquarter(entity.getSwiftCode()))
+                        .collect(Collectors.toList());
+
+                return swiftCodeMapper.mapToResponse(swiftCodeEntity,branches);
+
+            }
+            return swiftCodeMapper.mapToResponse(swiftCodeEntity);
         }
         throw new NonExistingSwiftCodeException("Swift code " + swiftCode + " not found");
     }
@@ -47,19 +55,7 @@ public class SwiftCodeService {
         validateCountryCode(countryCode);
         List<SwiftCodeEntity> countrySwiftCodes = swiftCodeRepository.findByCountryIso2(countryCode.toUpperCase());
 
-        List<SwiftCodeBranchResponse> swiftCodeBranchResponses = new ArrayList<>();
-        for (SwiftCodeEntity swiftCodeEntity : countrySwiftCodes) {
-            swiftCodeBranchResponses.add(SwiftCodeBranchResponse.builder()
-                    .swiftCode(swiftCodeEntity.getSwiftCode())
-                    .isHeadquarter(swiftCodeEntity.isHeadquarter())
-                    .bankName(swiftCodeEntity.getBankName())
-                    .countryISO2(swiftCodeEntity.getCountryIso2())
-                    .address(swiftCodeEntity.getAddress())
-                    .countryName(swiftCodeEntity.getCountryName())
-                    .build());
-        }
-
-        return swiftCodeBranchResponses;
+        return swiftCodeMapper.mapToResponse(countrySwiftCodes);
     }
 
     public void createSwiftCode(CreateSwiftCodeRequest swiftCodeRequest) {
@@ -73,15 +69,7 @@ public class SwiftCodeService {
 
         //TODO SAVE AS UPPER CASE
         swiftCodeRepository.save(
-                SwiftCodeEntity.
-                        builder().
-                        swiftCode(swiftCodeRequest.getSwiftCode()).
-                        countryIso2(swiftCodeRequest.getCountryISO2()).
-                        countryName(swiftCodeRequest.getCountryName()).
-                        address(swiftCodeRequest.getAddress()).
-                        isHeadquarter(swiftCodeRequest.isHeadquarter()).
-                        bankName(swiftCodeRequest.getBankName()).
-                        build()
+                swiftCodeMapper.mapToEntity(swiftCodeRequest)
         );
 
 
@@ -116,4 +104,6 @@ public class SwiftCodeService {
     }
 
 
-}
+
+
+    }
