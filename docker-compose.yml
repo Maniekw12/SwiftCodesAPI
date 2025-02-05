@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_container
+    restart: always
+    environment:
+      POSTGRES_USER: remitly
+      POSTGRES_PASSWORD: remitly1234
+      POSTGRES_DB: remitly_swift_codes
+    ports:
+      - "5432:5432"
+
+  application:
+    container_name: remitly-internship
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/remitly_swift_codes
+      SPRING_DATASOURCE_USERNAME: remitly
+      SPRING_DATASOURCE_PASSWORD: remitly1234
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
