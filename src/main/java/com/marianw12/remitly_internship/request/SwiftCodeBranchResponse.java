@@ -1,11 +1,15 @@
 package com.marianw12.remitly_internship.request;
 
-import lombok.Builder;
-import lombok.Getter;
 
-@Getter
-@Builder
-public class CreateSwiftCodeRequest {
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+
+public class SwiftCodeBranchResponse {
     public String address;
     public String bankName;
     public String countryISO2;
@@ -13,6 +17,3 @@ public class CreateSwiftCodeRequest {
     public boolean isHeadquarter;
     public String swiftCode;
 }
-
-
-
