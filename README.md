@@ -146,7 +146,7 @@ docker-compose down
     "bankName": string,
     "countryISO2": string,
     "countryName": string,
-    “isHeadquarter”: bool,
+    "isHeadquarter": bool,
     "swiftCode": string,
 }
 ```
@@ -182,7 +182,7 @@ docker-compose down
     "bankName": string,
     "countryISO2": string,
     "countryName": string,
-    “isHeadquarter”: bool,
+    "isHeadquarter": bool,
     "swiftCode": string,
 }
 ```
