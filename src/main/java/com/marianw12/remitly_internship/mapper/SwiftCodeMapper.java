@@ -34,36 +34,36 @@ public class SwiftCodeMapper {
                 .build();
     }
 
-   public SwiftCodeEntity mapToEntity(CreateSwiftCodeRequest swiftCodeRequest) {
+    public SwiftCodeEntity mapToEntity(CreateSwiftCodeRequest swiftCodeRequest) {
 
-       return SwiftCodeEntity.
-               builder().
-               swiftCode(toUpperCase(swiftCodeRequest.getSwiftCode())).
-               countryIso2(toUpperCase(swiftCodeRequest.getCountryISO2())).
-               countryName(toUpperCase(swiftCodeRequest.getCountryName())).
-               address(toUpperCase(swiftCodeRequest.getAddress())).
-               isHeadquarter(swiftCodeRequest.isHeadquarter()).
-               bankName(toUpperCase(swiftCodeRequest.getBankName())).
-               build();
-   }
+        return SwiftCodeEntity
+                .builder()
+                .swiftCode(toUpperCase(swiftCodeRequest.getSwiftCode()))
+                .countryIso2(toUpperCase(swiftCodeRequest.getCountryISO2()))
+                .countryName(toUpperCase(swiftCodeRequest.getCountryName()))
+                .address(toUpperCase(swiftCodeRequest.getAddress()))
+                .isHeadquarter(swiftCodeRequest.isHeadquarter())
+                .bankName(toUpperCase(swiftCodeRequest.getBankName()))
+                .build();
+    }
 
-   public SwiftCodeHeadquarterResponse mapToResponse(SwiftCodeEntity swiftCodeEntity, List<SwiftCodeEntity> branches) {
-       List<SwiftCodeBranchResponse> branchResponses = mapToResponse(branches);
-       return SwiftCodeHeadquarterResponse
-               .builder()
-               .swiftCode(swiftCodeEntity.getSwiftCode())
-               .isHeadquarter(swiftCodeEntity.isHeadquarter())
-               .bankName(swiftCodeEntity.getBankName())
-               .countryISO2(swiftCodeEntity.getCountryIso2())
-               .address(swiftCodeEntity.getAddress())
-               .countryName(swiftCodeEntity.getCountryName())
-               .branches(branchResponses).build();
-   }
+    public SwiftCodeHeadquarterResponse mapToResponse(SwiftCodeEntity swiftCodeEntity, List<SwiftCodeEntity> branches) {
+        List<SwiftCodeBranchResponse> branchResponses = mapToResponse(branches);
+        return SwiftCodeHeadquarterResponse
+                .builder()
+                .swiftCode(swiftCodeEntity.getSwiftCode())
+                .isHeadquarter(swiftCodeEntity.isHeadquarter())
+                .bankName(swiftCodeEntity.getBankName())
+                .countryISO2(swiftCodeEntity.getCountryIso2())
+                .address(swiftCodeEntity.getAddress())
+                .countryName(swiftCodeEntity.getCountryName())
+                .branches(branchResponses).build();
+    }
 
 
-   private String toUpperCase(String str) {
+    private String toUpperCase(String str) {
         return str != null ? str.toUpperCase() : "";
-   }
+    }
 
 
 }

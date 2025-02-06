@@ -1,6 +1,5 @@
 package com.marianw12.remitly_internship.util;
 
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
@@ -20,6 +19,7 @@ public class CountryValidator {
     public static boolean isValidIso2Code(String code) {
         return code != null && ISO_COUNTRY_CODES.contains(code.toUpperCase());
     }
+
 
     public static boolean isValidCountryName(String countryName) {
         return countryName != null && ISO_COUNTRY_NAMES.contains(countryName.toUpperCase());

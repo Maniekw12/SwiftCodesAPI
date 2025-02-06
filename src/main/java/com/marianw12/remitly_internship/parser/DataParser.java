@@ -1,7 +1,6 @@
 package com.marianw12.remitly_internship.parser;
 
 
-
 import com.marianw12.remitly_internship.entity.SwiftCodeEntity;
 import com.marianw12.remitly_internship.util.CountryValidator;
 import com.marianw12.remitly_internship.util.SwiftCodeValidator;
@@ -50,14 +49,14 @@ public class DataParser {
                 .setSkipHeaderRecord(true)
                 .build();
 
-        try(
+        try (
                 Reader reader = new InputStreamReader(csvFileResource.getInputStream());
                 CSVParser parser = new CSVParser(reader, csvFormat)
-                ){
+        ) {
 
             LOGGER.info(String.format("Initiating database with records from file: %s", csvFileResource.getFilename()));
 
-            for(CSVRecord record : parser.getRecords()) {
+            for (CSVRecord record : parser.getRecords()) {
                 String swiftCode = record.get(SWIFT_CODE_COLUMN);
                 String countryIso2 = record.get(COUNTRY_ISO_CODE_COLUMN);
                 String countryName = record.get(COUNTRY_NAME_COLUMN);
@@ -104,16 +103,12 @@ public class DataParser {
             }
             swiftCodeRepository.saveAll(swiftCodes);
             LOGGER.info(String.format("Successfully persisted %s records", swiftCodes.size()));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Exception while initializing database", e);
         }
 
 
     }
-
-
-
 
 
 }
