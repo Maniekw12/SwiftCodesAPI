@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SwiftCodeHeadquarterResponse extends SwiftCodeBranchResponse {
-    public List<SwiftCodeBranchResponse> branches;
+    private List<SwiftCodeBranchResponse> branches;
 }

@@ -6,13 +6,10 @@ import lombok.Getter;
 @Getter
 @Builder
 public class CreateSwiftCodeRequest {
-    public String address;
-    public String bankName;
-    public String countryISO2;
-    public String countryName;
-    public boolean isHeadquarter;
-    public String swiftCode;
+    private String address;
+    private String bankName;
+    private String countryISO2;
+    private String countryName;
+    private boolean isHeadquarter;
+    private String swiftCode;
 }
-
-
-

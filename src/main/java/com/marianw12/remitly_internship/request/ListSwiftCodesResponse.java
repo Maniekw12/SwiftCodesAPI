@@ -1,12 +1,14 @@
 package com.marianw12.remitly_internship.request;
 
 import java.util.List;
+
 import lombok.Builder;
+import lombok.Getter;
 
-
+@Getter
 @Builder
 public class ListSwiftCodesResponse {
-    public String countryISO2;
-    public String countryName;
-    List<SwiftCodeBranchResponse> swiftCodes;
+    private String countryISO2;
+    private String countryName;
+    private List<SwiftCodeBranchResponse> swiftCodes;
 }

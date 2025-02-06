@@ -2,21 +2,20 @@ package com.marianw12.remitly_internship.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marianw12.remitly_internship.entity.SwiftCodeEntity;
-import com.marianw12.remitly_internship.parser.DataParser;
+import com.marianw12.remitly_internship.helpers.TestHelper;
 import com.marianw12.remitly_internship.repository.SwiftCodeRepository;
 import com.marianw12.remitly_internship.request.CreateSwiftCodeRequest;
 import com.marianw12.remitly_internship.request.SwiftCodeBranchResponse;
 import com.marianw12.remitly_internship.request.SwiftCodeHeadquarterResponse;
-import com.marianw12.remitly_internship.service.SwiftCodeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,7 +37,7 @@ public class SwiftCodeControllerTest {
     @Test
     void shouldCreateNewSwiftCodeSuccessfully() throws Exception {
         CreateSwiftCodeRequest request = CreateSwiftCodeRequest.builder()
-                .swiftCode("RBFTAWAF")
+                .swiftCode("RBFTAIAFHDF")
                 .countryISO2("PL")
                 .address("KONSTRUKTORSKA 12A  WARSZAWA, MAZOWIECKIE, 02-673")
                 .bankName("PROSERVICE FINTECO SP Z O.O.")
@@ -131,7 +130,7 @@ public class SwiftCodeControllerTest {
         //then
         SwiftCodeBranchResponse actual = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), SwiftCodeBranchResponse.class);
 
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -171,9 +170,10 @@ public class SwiftCodeControllerTest {
                 SwiftCodeHeadquarterResponse.class
         );
 
+
         assertNotNull(response);
         assertEquals("CESDMTM1XXX", response.getSwiftCode());
-        assertTrue(response.isHeadquarter());
+        assertTrue(TestHelper.extractIsHeadquarter(response));
         assertNotNull(response.getBranches());
         assertEquals(2, response.getBranches().size());
     }
@@ -198,7 +198,7 @@ public class SwiftCodeControllerTest {
     @Test
     void shouldReturnNotFoundWhenDeletingNonExistingSwiftCode() throws Exception {
         //when
-        mockMvc.perform(delete("/v1/swift-codes/DMAFPLP1"))
+        mockMvc.perform(delete("/v1/swift-codes/DMAFPLP1XXX"))
                 .andExpect(status().isNotFound());
     }
 
@@ -210,4 +210,46 @@ public class SwiftCodeControllerTest {
 
     }
 
+    @Test
+    void shouldReturnBadRequestOnGetByCountyWhenCountryCodeInvalid() throws Exception {
+        mockMvc.perform(get("/v1/swift-codes/country/PX")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnBadRequestOnGetWhenSwiftCodeInvalid() throws Exception {
+        mockMvc.perform(get("/v1/swift-codes/INVALIDSWIFT"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnNotFoundOnGetWhenSwiftCodeDoesNotExist() throws Exception {
+        mockMvc.perform(get("/v1/swift-codes/NONEXISTENT"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturnBadRequestOnPostWhenMissingFields() throws Exception {
+        CreateSwiftCodeRequest request = CreateSwiftCodeRequest.builder()
+                .swiftCode("CITIBGSFTRD")
+                .build();
+
+        mockMvc.perform(post("/v1/swift-codes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnNotFoundOnDeleteWhenSwiftCodeDoesNotExist() throws Exception {
+        mockMvc.perform(delete("/v1/swift-codes/NONEXISTENT"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturnNotFoundOnDeleteNonExistentSwiftCodeWithSimilarPrefix() throws Exception {
+        mockMvc.perform(delete("/v1/swift-codes/BAERMCMCXXX"))
+                .andExpect(status().isNotFound());
+    }
 }

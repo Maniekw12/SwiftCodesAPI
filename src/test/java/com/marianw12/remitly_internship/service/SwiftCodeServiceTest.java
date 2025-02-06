@@ -2,6 +2,7 @@ package com.marianw12.remitly_internship.service;
 
 import com.marianw12.remitly_internship.entity.SwiftCodeEntity;
 import com.marianw12.remitly_internship.exception.DuplicatedSwiftCodeException;
+import com.marianw12.remitly_internship.exception.InconsistentHeadquarterFlagException;
 import com.marianw12.remitly_internship.exception.NonExistingSwiftCodeException;
 import com.marianw12.remitly_internship.mapper.SwiftCodeMapper;
 import com.marianw12.remitly_internship.repository.SwiftCodeRepository;
@@ -80,11 +81,15 @@ public class SwiftCodeServiceTest {
                 .swiftCode("PSATPLPWXXX")
                 .countryISO2("PL")
                 .countryName("Poland")
+                .isHeadquarter(true)
                 .build();
 
         SwiftCodeEntity entity = SwiftCodeEntity
                 .builder()
                 .swiftCode("PSATPLPWXXX")
+                .countryIso2("PL")
+                .countryName("Poland")
+                .isHeadquarter(true)
                 .build();
 
         when(swiftCodeRepository.existsById(request.getSwiftCode().toUpperCase()))
@@ -106,6 +111,7 @@ public class SwiftCodeServiceTest {
                 .swiftCode("TESTPLPWXXX")
                 .countryISO2("PL")
                 .countryName("Poland")
+                .isHeadquarter(true)
                 .build();
 
         when(swiftCodeRepository.existsById(request.getSwiftCode().toUpperCase()))
@@ -114,6 +120,22 @@ public class SwiftCodeServiceTest {
         //when
         //then
         Assertions.assertThrows(DuplicatedSwiftCodeException.class, () -> swiftCodeService.createSwiftCode(request));
+    }
+
+    @Test
+    public void shouldThrowInconsistentHeadquarterFlagExceptionWhenSwiftCodeAndFlagNotMatch() {
+        //given
+        CreateSwiftCodeRequest request = CreateSwiftCodeRequest
+                .builder()
+                .swiftCode("TESTPLPWXXX")
+                .countryISO2("PL")
+                .countryName("Poland")
+                .isHeadquarter(false)
+                .build();
+
+        //when
+        //then
+        Assertions.assertThrows(InconsistentHeadquarterFlagException.class, () -> swiftCodeService.createSwiftCode(request));
     }
 
     @Test

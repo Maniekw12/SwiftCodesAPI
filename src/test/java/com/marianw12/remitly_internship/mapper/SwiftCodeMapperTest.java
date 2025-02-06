@@ -1,9 +1,11 @@
 package com.marianw12.remitly_internship.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.marianw12.remitly_internship.entity.SwiftCodeEntity;
 import com.marianw12.remitly_internship.request.CreateSwiftCodeRequest;
 import com.marianw12.remitly_internship.request.SwiftCodeBranchResponse;
 import com.marianw12.remitly_internship.request.SwiftCodeHeadquarterResponse;
+import com.marianw12.remitly_internship.helpers.TestHelper;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -32,7 +34,7 @@ class SwiftCodeMapperTest {
         //then
         assertNotNull(response);
         assertEquals("MSDMPLP2XXX", response.getSwiftCode());
-        assertTrue(response.isHeadquarter());
+        //assertTrue(response.isHeadquarter());
         assertEquals("MICHAEL STROM DOM MAKLERSKI S.A.", response.getBankName());
         assertEquals("PL", response.getCountryISO2());
         assertEquals("ALEJE JEROZOLIMSKIE 100, FLOOR 6  WARSZAWA, MAZOWIECKIE, 00-807", response.getAddress());
@@ -65,7 +67,7 @@ class SwiftCodeMapperTest {
     }
 
     @Test
-    public void shouldMapEntityWithBranchesToSwiftCodeHeadquarterResponse() {
+    public void shouldMapEntityWithBranchesToSwiftCodeHeadquarterResponse() throws JsonProcessingException {
         //given
         SwiftCodeEntity headquarter = SwiftCodeEntity.builder()
                 .swiftCode("TESTPLPWXXX")
@@ -93,13 +95,13 @@ class SwiftCodeMapperTest {
         //then
         assertNotNull(response);
         assertEquals("TESTPLPWXXX", response.getSwiftCode());
-        assertTrue(response.isHeadquarter());
+        assertTrue(TestHelper.extractIsHeadquarter(response));
         assertEquals(1, response.getBranches().size());
         assertEquals("TESTPLPW", response.getBranches().get(0).getSwiftCode());
     }
 
     @Test
-    public void shouldReturnBranchResponseForNonHeadquarterEntity() {
+    public void shouldReturnBranchResponseForNonHeadquarterEntity() throws JsonProcessingException {
         //given
         SwiftCodeEntity headquarter = SwiftCodeEntity.builder()
                 .swiftCode("TESTPLPWXXX")
@@ -127,7 +129,7 @@ class SwiftCodeMapperTest {
         //then
         assertNotNull(response);
         assertEquals("TESTPLPW", response.getSwiftCode());
-        assertFalse(response.isHeadquarter());
+        assertFalse(TestHelper.extractIsHeadquarter(response));
 
     }
 

@@ -1,22 +1,28 @@
 package com.marianw12.remitly_internship.request;
 
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+@Setter
 @Getter
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 public class SwiftCodeBranchResponse {
-    public String address;
-    public String bankName;
-    public String countryISO2;
-    public String countryName;
-    public boolean isHeadquarter;
-    public String swiftCode;
+    private String address;
+    private String bankName;
+    private String countryISO2;
+    private String countryName;
+    @JsonProperty("isHeadquarter")
+    @Getter(AccessLevel.NONE)
+    private boolean isHeadquarter;
+    private String swiftCode;
+
+    @JsonProperty("isHeadquarter")
+    public boolean isHeadquarter() {
+        return isHeadquarter;
+    }
 }

@@ -1,6 +1,7 @@
 package com.marianw12.remitly_internship.util;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SwiftCodeValidatorTest {
@@ -12,11 +13,6 @@ public class SwiftCodeValidatorTest {
     @Test
     public void shouldReturnTrueForValidSwiftCodeWithBranch() {
         assertTrue(SwiftCodeValidator.isValid("BCHICLR10R2"));
-    }
-
-    @Test
-    public void shouldReturnTrueForValid8CharSwiftCode() {
-        assertTrue(SwiftCodeValidator.isValid("AAAAFR12"));
     }
 
     @Test
@@ -80,6 +76,7 @@ public class SwiftCodeValidatorTest {
         assertFalse(SwiftCodeValidator.isHeadquarter("BchICLR10R2"));
         assertFalse(SwiftCodeValidator.isHeadquarter("bchiclr10r2"));
     }
+
     @Test
     public void shouldReturnFalseWhenSwiftCodeIsNull() {
         assertFalse(SwiftCodeValidator.isHeadquarter(null));

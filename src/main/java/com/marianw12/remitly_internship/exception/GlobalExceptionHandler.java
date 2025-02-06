@@ -10,19 +10,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(NonExistingSwiftCodeException.class)
-    public ResponseEntity<BaseResponse> handleNonExistingSwiftCode(HttpServletRequest req,Exception e) throws Exception {
+    public ResponseEntity<BaseResponse> handleNonExistingSwiftCode(HttpServletRequest req, Exception e) throws Exception {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new BaseResponse(e.getMessage()));
     }
 
-    @ExceptionHandler({InvalidCountryException.class,InvalidSwiftCodeException.class})
-    public ResponseEntity<BaseResponse> handleValidation(HttpServletRequest req,Exception e) throws Exception {
+    @ExceptionHandler({InvalidCountryException.class, InvalidSwiftCodeException.class, InconsistentHeadquarterFlagException.class})
+    public ResponseEntity<BaseResponse> handleValidation(HttpServletRequest req, Exception e) throws Exception {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BaseResponse(e.getMessage()));
     }
 
     @ExceptionHandler(DuplicatedSwiftCodeException.class)
-    public ResponseEntity<BaseResponse> handleDuplicatedSwiftCode(HttpServletRequest req,Exception e) throws Exception {
+    public ResponseEntity<BaseResponse> handleDuplicatedSwiftCode(HttpServletRequest req, Exception e) throws Exception {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new BaseResponse(e.getMessage()));
     }
-
 
 }
