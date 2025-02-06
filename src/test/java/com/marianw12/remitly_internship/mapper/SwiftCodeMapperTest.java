@@ -58,7 +58,7 @@ class SwiftCodeMapperTest {
         assertNotNull(entity);
         assertEquals("LLBBLV2X222", entity.getSwiftCode());
         assertEquals("LV", entity.getCountryIso2());
-        assertEquals("Latvia", entity.getCountryName());
+        assertEquals("LATVIA", entity.getCountryName());
         assertEquals("ANTONIJAS 3  RIGA, RIGA, LV-1010", entity.getAddress());
         assertFalse(entity.isHeadquarter());
         assertEquals("SIGNET BANK AS", entity.getBankName());

@@ -35,14 +35,15 @@ public class SwiftCodeMapper {
     }
 
    public SwiftCodeEntity mapToEntity(CreateSwiftCodeRequest swiftCodeRequest) {
+
        return SwiftCodeEntity.
                builder().
-               swiftCode(swiftCodeRequest.getSwiftCode()).
-               countryIso2(swiftCodeRequest.getCountryISO2()).
-               countryName(swiftCodeRequest.getCountryName()).
-               address(swiftCodeRequest.getAddress()).
+               swiftCode(toUpperCase(swiftCodeRequest.getSwiftCode())).
+               countryIso2(toUpperCase(swiftCodeRequest.getCountryISO2())).
+               countryName(toUpperCase(swiftCodeRequest.getCountryName())).
+               address(toUpperCase(swiftCodeRequest.getAddress())).
                isHeadquarter(swiftCodeRequest.isHeadquarter()).
-               bankName(swiftCodeRequest.getBankName()).
+               bankName(toUpperCase(swiftCodeRequest.getBankName())).
                build();
    }
 
@@ -58,5 +59,11 @@ public class SwiftCodeMapper {
                .countryName(swiftCodeEntity.getCountryName())
                .branches(branchResponses).build();
    }
+
+
+   private String toUpperCase(String str) {
+        return str != null ? str.toUpperCase() : "";
+   }
+
 
 }

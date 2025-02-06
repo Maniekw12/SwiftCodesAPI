@@ -67,7 +67,6 @@ public class SwiftCodeService {
         }
 
 
-        //TODO SAVE AS UPPER CASE
         swiftCodeRepository.save(
                 swiftCodeMapper.mapToEntity(swiftCodeRequest)
         );
