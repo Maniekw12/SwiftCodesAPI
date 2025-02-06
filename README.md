@@ -31,7 +31,7 @@ Make sure you have Docker and Docker Compose installed on your system. If not, f
 Clone the repository containing the `docker-compose.yml` and `Dockerfile`.
 
 ```bash
-git clone https://github.com/
+git clone https://github.com/Maniekw12/SwiftCodesAPI.git
 ```
 
 #### 3. Start the Containers
@@ -71,41 +71,34 @@ docker-compose down
 
 ```json
 {
-    "address": string,
-    "bankName": string,
-    "countryISO2": string,
-    "countryName": string,
-    "isHeadquarter": bool,
-    "swiftCode": string,
-    "branches": [
-        {
-            "address": string,
-            "bankName": string,
-            "countryISO2": string,
-            "isHeadquarter": bool,
-            "swiftCode": string
-        },
-        {
-            "address": string,
-            "bankName": string,
-            "countryISO2": string,
-            "isHeadquarter": bool,
-            "swiftCode": string
-        }
-    ]
+  "address": "LE PARK PALACE 27 AVENUE DE LA COSTA MONACO, MONACO, 98000",
+  "bankName": "SOCIETE GENERALE (FORMERLY SOCIETE DE BANQUE MONACO)",
+  "countryISO2": "MC",
+  "countryName": "MONACO",
+  "swiftCode": "SDBMMCM2XXX",
+  "branches": [
+    {
+      "address": "LE PARK PALACE 27 AVENUE DE LA COSTA MONACO, MONACO, 98000",
+      "bankName": "SOCIETE GENERALE (FORMERLY SOCIETE DE BANQUE MONACO)",
+      "countryISO2": "MC",
+      "countryName": "MONACO",
+      "swiftCode": "SDBMMCM2TPS",
+      "isHeadquarter": false
+    }
+  ],
+  "isHeadquarter": true
 }
-
 
 ```
 **Response Structure for branch swift code:**
 ```json
 {
-    "address": string,
-    "bankName": string,
-    "countryISO2": string,
-    "countryName": string,
-    "isHeadquarter": bool,
-    "swiftCode": string
+  "address": "LE PARK PALACE 27 AVENUE DE LA COSTA MONACO, MONACO, 98000",
+  "bankName": "SOCIETE GENERALE (FORMERLY SOCIETE DE BANQUE MONACO)",
+  "countryISO2": "MC",
+  "countryName": "MONACO",
+  "swiftCode": "SDBMMCM2TPS",
+  "isHeadquarter": false
 }
 ```
 #### Endpoint 2: Return all SWIFT codes with details for a specific country (both headquarters and branches).
@@ -113,41 +106,45 @@ docker-compose down
 **Response Structure**
 ```json
 {
-    "countryISO2": string,
-    "countryName": string,
-    "swiftCodes": [
-        {
-            "address": string,
-    		 "bankName": string,
-    		 "countryISO2": string,
-    		 "isHeadquarter": bool,
-    		 "swiftCode": string
-        },
-        {
-            "address": string,
-    		 "bankName": string,
-    		 "countryISO2": string,
-    		 "isHeadquarter": bool,
-    		 "swiftCode": string
-        }, . . .
-    ]
+  "countryISO2": "PL",
+  "countryName": "POLAND",
+  "swiftCodes": [
+    {
+      "address": "STRZEGOMSKA 42C  WROCLAW, DOLNOSLASKIE, 53-611",
+      "bankName": "SANTANDER CONSUMER BANK SPOLKA AKCYJNA",
+      "countryISO2": "PL",
+      "countryName": "POLAND",
+      "swiftCode": "AIPOPLP1XXX",
+      "isHeadquarter": true
+    },
+    {
+      "address": "  WARSZAWA, MAZOWIECKIE",
+      "bankName": "ALIOR BANK SPOLKA AKCYJNA",
+      "countryISO2": "PL",
+      "countryName": "POLAND",
+      "swiftCode": "ALBPPLP1BMW",
+      "isHeadquarter": false
+    }
+  ]
 }
-
 ```
 
 #### Endpoint 3: Adds new SWIFT code entries to the database for a specific country.
+
+> [!WARNING]
+> Assumption: isHeadquarter parameter have to be consistent with swift code.
 
 **POST** ` /v1/swift-codes:`
 **Request Structure**
 ```json
 
-	{
-    "address": string,
-    "bankName": string,
-    "countryISO2": string,
-    "countryName": string,
-    "isHeadquarter": bool,
-    "swiftCode": string,
+{
+  "address": "string",
+  "bankName": "string",
+  "countryISO2": "string",
+  "countryName": "string",
+  "isHeadquarter": "boolean",
+  "swiftCode": "string"
 }
 ```
 **Response Structure:**
@@ -167,6 +164,14 @@ docker-compose down
 }
 ```
 
+- If isHeadquarter is is successfully added:
+```json
+{
+  "message": "Swift code created: {swiftCode}"
+}
+```
+
+
 - If the object is successfully added:
 ```json
 {
@@ -174,18 +179,11 @@ docker-compose down
 }
 ```
 #### Endpoint 4: Deletes swift-code data if swiftCode matches the one in the database.
-**POST** ` /v1/swift-codes:`
-**Request Structure**
-```json
-{
-    "address": string,
-    "bankName": string,
-    "countryISO2": string,
-    "countryName": string,
-    "isHeadquarter": bool,
-    "swiftCode": string,
-}
-```
+> [!WARNING]
+> Assumption: The description of this endpoint was misleading and mentioned about multiple parameters while endpoint definition only contains one. 
+> I used the definition with single path variable.
+
+**DELETE** ` /v1/swift-codes/{swift-code}`
 
 **Response Structure:**
 - If an object with the specified `swiftCode` exists in the database:
