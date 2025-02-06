@@ -1,66 +1,29 @@
 package com.marianw12.remitly_internship.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "swift_codes")
+@Table(
+        name = "swift_codes",
+        indexes = @Index(name = "country_iso2_idx", columnList = "countryIso2") //For faster lookup by countryIso2
+)
 public class SwiftCodeEntity {
     @Id
-    String swiftCode; // TODO specify length
-    String address;
-    String bankName;
-    String countryCode;
-    String countryName;
-    boolean isHeadQuarter;
-
-
-    public String getSwiftCode() {
-        return swiftCode;
-    }
-
-    public void setSwiftCode(String swiftCode) {
-        this.swiftCode = swiftCode;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
-
-    public String getCountryName() {
-        return countryName;
-    }
-
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
-    }
-
-    public boolean isHeadQuarter() {
-        return isHeadQuarter;
-    }
-
-    public void setHeadQuarter(boolean headQuarter) {
-        isHeadQuarter = headQuarter;
-    }
+    @Column(unique = true, nullable = false, length = 11)
+    private String swiftCode;
+    private String address;
+    private String bankName;
+    @Column(nullable = false, length = 2)
+    private String countryIso2;
+    private String countryName;
+    private boolean isHeadquarter;
 }
