@@ -118,7 +118,7 @@ docker-compose down
       "isHeadquarter": true
     },
     {
-      "address": "  WARSZAWA, MAZOWIECKIE",
+      "address": "WARSZAWA, MAZOWIECKIE",
       "bankName": "ALIOR BANK SPOLKA AKCYJNA",
       "countryISO2": "PL",
       "countryName": "POLAND",

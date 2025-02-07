@@ -31,7 +31,7 @@ public class SwiftCodesController {
     @PostMapping()
     public BaseResponse createSwiftCode(@RequestBody CreateSwiftCodeRequest swiftCode) {
         swiftCodeService.createSwiftCode(swiftCode);
-        return new BaseResponse("Swift code created: " + swiftCode.getSwiftCode());
+        return new BaseResponse("Swift code created: " + swiftCode.getSwiftCode().trim());
     }
 
     @DeleteMapping("/{swiftCode}")

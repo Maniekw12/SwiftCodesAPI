@@ -91,11 +91,11 @@ public class DataParser {
                 }
 
                 SwiftCodeEntity swiftCodeEntity = SwiftCodeEntity.builder()
-                        .swiftCode(swiftCode.toUpperCase())
-                        .countryIso2(countryIso2.toUpperCase())
-                        .bankName(bankName.toUpperCase())
-                        .address(address.toUpperCase())
-                        .countryName(countryName.toUpperCase())
+                        .swiftCode(swiftCode.toUpperCase().trim())
+                        .countryIso2(countryIso2.toUpperCase().trim())
+                        .bankName(bankName.toUpperCase().trim())
+                        .address(address.toUpperCase().trim())
+                        .countryName(countryName.toUpperCase().trim())
                         .isHeadquarter(SwiftCodeValidator.isHeadquarter(swiftCode))
                         .build();
 

@@ -36,8 +36,11 @@ class CountryValidatorTest {
         boolean isValid = CountryValidator.isValidCountryName("Poland");
         assertTrue(isValid);
 
-        boolean isValidLowerCase = CountryValidator.isValidCountryName("germany");
+        boolean isValidLowerCase = CountryValidator.isValidCountryName("germany ");
         assertTrue(isValidLowerCase);
+
+        boolean isValidSpaceCase = CountryValidator.isValidCountryName("germany ");
+        assertTrue(isValidSpaceCase);
 
         boolean isValidUpperCase = CountryValidator.isValidCountryName("FRANCE");
         assertTrue(isValidUpperCase);
@@ -60,5 +63,4 @@ class CountryValidatorTest {
         boolean isValid = CountryValidator.isValidCountryName("");
         assertFalse(isValid);
     }
-
 }

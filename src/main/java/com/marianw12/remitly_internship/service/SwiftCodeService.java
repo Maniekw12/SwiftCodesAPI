@@ -47,7 +47,7 @@ public class SwiftCodeService {
             }
             return swiftCodeMapper.mapToResponse(swiftCodeEntity);
         }
-        throw new NonExistingSwiftCodeException("Swift code " + swiftCode + " not found");
+        throw new NonExistingSwiftCodeException("Swift code " + swiftCode.trim() + " not found");
     }
 
     public ListSwiftCodesResponse getCountrySwiftCodes(String countryCode) {
@@ -69,8 +69,8 @@ public class SwiftCodeService {
         validateHeadquarter(swiftCodeRequest);
 
 
-        if (swiftCodeRepository.existsById(swiftCodeRequest.getSwiftCode().toUpperCase())) {
-            throw new DuplicatedSwiftCodeException("Swift code: " + swiftCodeRequest.getSwiftCode() + " already exists");
+        if (swiftCodeRepository.existsById(swiftCodeRequest.getSwiftCode().toUpperCase().trim())) {
+            throw new DuplicatedSwiftCodeException("Swift code: " + swiftCodeRequest.getSwiftCode().trim() + " already exists");
         }
 
 
@@ -84,7 +84,7 @@ public class SwiftCodeService {
     public void deleteSwiftCode(String swiftCode) {
         validateSwiftCode(swiftCode);
         if (!swiftCodeRepository.existsById(swiftCode.toUpperCase())) {
-            throw new NonExistingSwiftCodeException("Swift code " + swiftCode + " not found");
+            throw new NonExistingSwiftCodeException("Swift code " + swiftCode.trim() + " not found");
         }
         swiftCodeRepository.deleteById(swiftCode.toUpperCase());
 
@@ -111,7 +111,7 @@ public class SwiftCodeService {
 
     private void validateHeadquarter(CreateSwiftCodeRequest createSwiftCodeRequest) {
         if (SwiftCodeValidator.isHeadquarter(createSwiftCodeRequest.getSwiftCode()) != createSwiftCodeRequest.isHeadquarter()) {
-            throw new InconsistentHeadquarterFlagException("Headquarter flag set to: " + createSwiftCodeRequest.isHeadquarter() + " is not consistent with swift code " + createSwiftCodeRequest.getSwiftCode());
+            throw new InconsistentHeadquarterFlagException("Headquarter flag set to: " + createSwiftCodeRequest.isHeadquarter() + " is not consistent with swift code " + createSwiftCodeRequest.getSwiftCode().trim());
         }
 
     }

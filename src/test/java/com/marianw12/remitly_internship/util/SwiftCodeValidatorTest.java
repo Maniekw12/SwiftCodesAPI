@@ -8,6 +8,10 @@ public class SwiftCodeValidatorTest {
     @Test
     public void shouldReturnTrueForValidSwiftCode() {
         assertTrue(SwiftCodeValidator.isValid("AAISALTRXXX"));
+        assertTrue(SwiftCodeValidator.isValid("AAISALTRXXX "));
+        assertTrue(SwiftCodeValidator.isValid(" AAISALTRXXX "));
+
+
     }
 
     @Test
@@ -55,9 +59,9 @@ public class SwiftCodeValidatorTest {
     }
 
     @Test
-    public void shouldReturnFalseForSwiftCodeWithLeadingOrTrailingSpace() {
-        assertFalse(SwiftCodeValidator.isValid(" AAAAFR12XXX"));
-        assertFalse(SwiftCodeValidator.isValid("AAAAFR12XXX "));
+    public void shouldReturnTrueForSwiftCodeWithLeadingOrTrailingSpace() {
+        assertTrue(SwiftCodeValidator.isValid(" AAAAFR12XXX"));
+        assertTrue(SwiftCodeValidator.isValid("AAAAFR12XXX "));
     }
 
     @Test

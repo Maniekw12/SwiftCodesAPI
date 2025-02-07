@@ -38,12 +38,12 @@ public class SwiftCodeMapper {
 
         return SwiftCodeEntity
                 .builder()
-                .swiftCode(toUpperCase(swiftCodeRequest.getSwiftCode()))
-                .countryIso2(toUpperCase(swiftCodeRequest.getCountryISO2()))
-                .countryName(toUpperCase(swiftCodeRequest.getCountryName()))
-                .address(toUpperCase(swiftCodeRequest.getAddress()))
+                .swiftCode(toUpperCase(swiftCodeRequest.getSwiftCode()).trim())
+                .countryIso2(toUpperCase(swiftCodeRequest.getCountryISO2()).trim())
+                .countryName(toUpperCase(swiftCodeRequest.getCountryName()).trim())
+                .address(toUpperCase(swiftCodeRequest.getAddress()).trim())
                 .isHeadquarter(swiftCodeRequest.isHeadquarter())
-                .bankName(toUpperCase(swiftCodeRequest.getBankName()))
+                .bankName(toUpperCase(swiftCodeRequest.getBankName()).trim())
                 .build();
     }
 

@@ -17,12 +17,12 @@ public class CountryValidator {
     );
 
     public static boolean isValidIso2Code(String code) {
-        return code != null && ISO_COUNTRY_CODES.contains(code.toUpperCase());
+        return code != null && ISO_COUNTRY_CODES.contains(code.toUpperCase().trim());
     }
 
 
     public static boolean isValidCountryName(String countryName) {
-        return countryName != null && ISO_COUNTRY_NAMES.contains(countryName.toUpperCase());
+        return countryName != null && ISO_COUNTRY_NAMES.contains(countryName.toUpperCase().trim());
     }
 
 }

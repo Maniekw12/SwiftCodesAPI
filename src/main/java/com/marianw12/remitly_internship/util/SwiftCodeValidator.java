@@ -7,11 +7,11 @@ public class SwiftCodeValidator {
     private static final String HEADQUARTER_SUFFIX = "XXX";
 
     public static boolean isValid(String swiftCode) {
-        return swiftCode != null && SWIFT_CODE_PATTERN.matcher(swiftCode).matches();
+        return swiftCode != null && SWIFT_CODE_PATTERN.matcher(swiftCode.trim()).matches();
     }
 
     public static boolean isHeadquarter(String swiftCode) {
-        return swiftCode != null && swiftCode.endsWith(HEADQUARTER_SUFFIX);
+        return swiftCode != null && swiftCode.trim().endsWith(HEADQUARTER_SUFFIX);
     }
 
 }
