@@ -40,7 +40,7 @@ Run the following command to start the PostgreSQL and application containers:
 > [!WARNING]
 > Make sure that ports 8080 and 5432 are not in use. They are used by the application and  database.
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 This command will:
@@ -60,7 +60,7 @@ The PostgreSQL database will be available at `localhost:5432` with the credentia
 To stop the containers, press `Ctrl+C` in the terminal where the `docker-compose` command is running or use:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 ## 3. Endpoints
 #### Endpoint 1: Retrieve details of a single SWIFT code
